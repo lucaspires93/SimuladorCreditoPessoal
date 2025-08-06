@@ -13,19 +13,28 @@ public class CreditoPessoal extends ProdutoCredito{
     }
 
     public String aprovacao(){
-        if(getValorSolicitado() > totalPagar()){
+        if(getValorSolicitado() <= cliente.getLimiteCreditoDisponivel()){
             return "Solicitação : APROVADA!";
         }
-        else return "Solicitação : NÃO APROVADA!";
+        else {return "Solicitação : NÃO APROVADA!";}
     }
     @Override
     public double totalPagar(){
-      return getValorSolicitado() * (1 + getJurosAnual() / 100.0);
+        if (getNumeroParcelas() <= 0) {
+            throw new IllegalArgumentException("Quantidade de parcelas deve ser maior que zero.");
+        }
+
+        double jurosAnual = getJurosAnual() / 100.0;
+        double jurosMensal = Math.pow(1 + jurosAnual, 1.0 / 12) - 1;
+
+        double total = getValorSolicitado() * Math.pow(1 + jurosMensal, getNumeroParcelas());
+
+        return total;
     }
 
     @Override
     public double calcularParcelas() {
-        return getValorSolicitado() * (1 + getJurosAnual()/100.0)/ getNumeroParcelas();
+        return totalPagar() / getNumeroParcelas();
     }
 
     @Override

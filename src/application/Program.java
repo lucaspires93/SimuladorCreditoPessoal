@@ -72,22 +72,24 @@ public class Program {
             System.out.printf("Juros totais : %.2f\n", juroTotal);
             System.out.println();
 
-            String apv = cp.aprovacao();
-            System.out.println(apv);
-            System.out.println();
-
             System.out.println("--- RESUMO DO CLIENTE ---");
             String info = c.exibirInfo();
             System.out.println(info);
 
             String resumo = cp.exibirResumo();
             System.out.println(resumo);
+            System.out.println();
 
+            String apv = cp.aprovacao();
+            System.out.println(apv);
+            System.out.println();
 
             System.out.print("Deseja simular outros cenários? (s/n): ");
             resp = sc.next().charAt(0);
             sc.nextLine();
             System.out.println();
+
+
         }
         while(resp == 's');
 
